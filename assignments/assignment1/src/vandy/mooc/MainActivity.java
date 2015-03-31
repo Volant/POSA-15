@@ -1,11 +1,14 @@
 package vandy.mooc;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -53,14 +56,21 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Always call super class for necessary
         // initialization/implementation.
-        // @@ TODO -- you fill in here.
+        // @@ TO DO -- you fill in here.
+    	super.onCreate(savedInstanceState);
 
         // Set the default layout.
-        // @@ TODO -- you fill in here.
+        // @@ TO DO -- you fill in here.
+    	setContentView(R.layout.main_activity);
 
         // Cache the EditText that holds the urls entered by the user
         // (if any).
-        // @@ TODO -- you fill in here.
+        // @@ TO DO -- you fill in here.
+    	mUrlEditText = (EditText) findViewById(R.id.url);
+    	
+    	
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     /**
@@ -80,13 +90,31 @@ public class MainActivity extends LifecycleLoggingActivity {
             // image from the URL given by the user.  In this case
             // it's an Intent that's implemented by the
             // DownloadImageActivity.
-            // @@ TODO - you fill in here.
+            // @@ TO DO - you fill in here.
+            
+            Uri toDownload;
+            String enteredUri = mUrlEditText.getText().toString();
+            if (enteredUri == "") {
+            	toDownload = mDefaultUrl;
+            	mUrlEditText.setText(mDefaultUrl.toString());
+            } else {
+            	toDownload = Uri.parse(mUrlEditText.getText().toString());
+            }
+            
+            Intent doDownload = makeDownloadImageIntent(toDownload);
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
-            // @@ TODO -- you fill in here.
+            // @@ TO DO -- you fill in here.
+            Intent baseIntent = null;
+            baseIntent = Intent.createChooser(doDownload, "Choose the downloader");
+        	baseIntent.putExtra("dowloadURL", mUrlEditText.getText().toString());
+
+            Log.e(TAG, "Starting download image activity");
+            
+            startActivityForResult(baseIntent, DOWNLOAD_IMAGE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,21 +131,24 @@ public class MainActivity extends LifecycleLoggingActivity {
                                     int resultCode,
                                     Intent data) {
         // Check if the started Activity completed successfully.
-        // @@ TODO -- you fill in here, replacing true with the right
+        // @@ TO DO -- you fill in here, replacing true with the right
         // code.
-        if (true) {
+        if (resultCode == RESULT_OK) {
             // Check if the request code is what we're expecting.
-            // @@ TODO -- you fill in here, replacing true with the
+            // @@ TO DO -- you fill in here, replacing true with the
             // right code.
-            if (true) {
+            if (requestCode == DOWNLOAD_IMAGE_REQUEST) {
                 // Call the makeGalleryIntent() factory method to
                 // create an Intent that will launch the "Gallery" app
                 // by passing in the path to the downloaded image
                 // file.
-                // @@ TODO -- you fill in here.
-
+                // @@ TO DO -- you fill in here.
+            	
+            	String localUri = data.getStringExtra("localURI");
+            	
                 // Start the Gallery Activity.
-                // @@ TODO -- you fill in here.
+                // @@ TO DO -- you fill in here.
+            	startActivity(makeGalleryIntent(localUri));
             }
         }
         // Check if the started Activity did not complete successfully
@@ -126,6 +157,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         // @@ TODO -- you fill in here, replacing true with the right
         // code.
         else if (true) {
+        	
         }
     }    
 
@@ -136,9 +168,12 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Intent makeGalleryIntent(String pathToImageFile) {
         // Create an intent that will start the Gallery app to view
         // the image.
-    	// TODO -- you fill in here, replacing "null" with the proper
+    	// TO DO -- you fill in here, replacing "null" with the proper
     	// code.
-        return null;
+
+    	Intent galleryIntent = new Intent(Intent.ACTION_VIEW);
+    	galleryIntent.setDataAndType(Uri.fromFile(new File(pathToImageFile)),"image/*");
+        return galleryIntent;
     }
 
     /**
@@ -147,9 +182,11 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     private Intent makeDownloadImageIntent(Uri url) {
         // Create an intent that will download the image from the web.
-    	// TODO -- you fill in here, replacing "null" with the proper
+    	// TO DO -- you fill in here, replacing "null" with the proper
     	// code.
-        return null;
+    	Log.e(TAG, String.format("URL: %s", url.toString()));
+    	Intent downloadIntent = new Intent(Intent.ACTION_WEB_SEARCH, url);
+        return downloadIntent;
     }
 
     /**

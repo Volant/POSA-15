@@ -56,7 +56,8 @@ public abstract class LifecycleLoggingActivity extends Activity {
     protected void onStart(){
         // Always call super class for necessary
         // initialization/implementation.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onStart();
     }
 	
     /**
@@ -73,7 +74,8 @@ public abstract class LifecycleLoggingActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation and then log which lifecycle
         // hook method is being called.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onResume();
     }
 	
     /**
@@ -89,7 +91,8 @@ public abstract class LifecycleLoggingActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation and then log which lifecycle
         // hook method is being called.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onPause();
     }
 	
     /**
@@ -102,7 +105,8 @@ public abstract class LifecycleLoggingActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation and then log which lifecycle
         // hook method is being called.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onStop();
     }
 	
     /**
@@ -114,7 +118,8 @@ public abstract class LifecycleLoggingActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation and then log which lifecycle
         // hook method is being called.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onRestart();
     }
 	
     /**
@@ -127,6 +132,7 @@ public abstract class LifecycleLoggingActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation and then log which lifecycle
         // hook method is being called.
-        // TODO - you fill in here.
+        // TO DO - you fill in here.
+    	super.onDestroy();
     }
 }

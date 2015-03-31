@@ -206,5 +206,6 @@ public class DownloadUtils {
         //                              + System.currentTimeMillis());
         return Base64.encodeToString(url.getBytes(),
                                      Base64.NO_WRAP);
+//                                     + System.currentTimeMillis() + ".jpg";
     }
 }

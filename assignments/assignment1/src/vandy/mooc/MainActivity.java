@@ -92,28 +92,20 @@ public class MainActivity extends LifecycleLoggingActivity {
             // DownloadImageActivity.
             // @@ TO DO - you fill in here.
             
-            Uri toDownload;
-            String enteredUri = mUrlEditText.getText().toString();
-            if (enteredUri == "") {
-            	toDownload = mDefaultUrl;
-            	mUrlEditText.setText(mDefaultUrl.toString());
-            } else {
-            	toDownload = Uri.parse(mUrlEditText.getText().toString());
-            }
+            Uri enteredUri = getUrl();
+            if (null == enteredUri) return;
             
-            Intent doDownload = makeDownloadImageIntent(toDownload);
+            Intent doDownload = makeDownloadImageIntent(enteredUri);
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
             // @@ TO DO -- you fill in here.
+
             Intent baseIntent = null;
             baseIntent = Intent.createChooser(doDownload, "Choose the downloader");
-        	baseIntent.putExtra("dowloadURL", mUrlEditText.getText().toString());
 
-            Log.e(TAG, "Starting download image activity");
-            
             startActivityForResult(baseIntent, DOWNLOAD_IMAGE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,10 +146,12 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Check if the started Activity did not complete successfully
         // and inform the user a problem occurred when trying to
         // download contents at the given URL.
-        // @@ TODO -- you fill in here, replacing true with the right
+        // @@ TO DO -- you fill in here, replacing true with the right
         // code.
-        else if (true) {
-        	
+        else {
+            Toast.makeText(this,
+                    "Entered URL could not been downloaded",
+                    Toast.LENGTH_SHORT).show();
         }
     }    
 
@@ -184,7 +178,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Create an intent that will download the image from the web.
     	// TO DO -- you fill in here, replacing "null" with the proper
     	// code.
-    	Log.e(TAG, String.format("URL: %s", url.toString()));
+
     	Intent downloadIntent = new Intent(Intent.ACTION_WEB_SEARCH, url);
         return downloadIntent;
     }
@@ -205,9 +199,9 @@ public class MainActivity extends LifecycleLoggingActivity {
 
         // Do a sanity check to ensure the URL is valid, popping up a
         // toast if the URL is invalid.
-        // @@ TODO -- you fill in here, replacing "true" with the
+        // @@ TO DO -- you fill in here, replacing "true" with the
         // proper code.
-        if (true)
+        if (URLUtil.isValidUrl(url.toString()))
             return url;
         else {
             Toast.makeText(this,

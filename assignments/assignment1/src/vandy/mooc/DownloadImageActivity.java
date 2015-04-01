@@ -60,7 +60,6 @@ public class DownloadImageActivity extends Activity {
 
     	handler = new dHandler(DownloadImageActivity.this);
     	Thread downloadThread = new Thread( new Runnable() {
-
 			@Override
 			public void run() {
 				try {
@@ -77,6 +76,7 @@ public class DownloadImageActivity extends Activity {
 	                    handler.sendMessage(msgObj);
 			    	} else {
 			    		msgObj.what = DOWNLOAD_FAIL;
+			    		handler.sendMessage(msgObj);
 			    	}
 				} catch (Throwable t) {
 					Log.e(TAG, "Thread exception" + t);

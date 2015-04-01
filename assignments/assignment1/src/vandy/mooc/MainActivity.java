@@ -67,10 +67,6 @@ public class MainActivity extends LifecycleLoggingActivity {
         // (if any).
         // @@ TO DO -- you fill in here.
     	mUrlEditText = (EditText) findViewById(R.id.url);
-    	
-    	
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
     }
 
     /**

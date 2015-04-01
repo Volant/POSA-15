@@ -78,6 +78,12 @@ public class DownloadImageActivity extends Activity {
 			    		msgObj.what = DOWNLOAD_FAIL;
 			    		handler.sendMessage(msgObj);
 			    	}
+			    	
+			    	runOnUiThread( new Runnable () {
+			    		public void run() {
+			    			finish();
+			    		}
+			    	});
 				} catch (Throwable t) {
 					Log.e(TAG, "Thread exception" + t);
 				}
@@ -93,6 +99,7 @@ public class DownloadImageActivity extends Activity {
 
     	downloadThread.start();
     }
+
 }
 
 class dHandler extends Handler{
@@ -119,6 +126,5 @@ class dHandler extends Handler{
 		} else {
 			activity.setResult(DownloadImageActivity.DOWNLOAD_FAIL);		
 		}
-		activity.finish();
 	}
 }

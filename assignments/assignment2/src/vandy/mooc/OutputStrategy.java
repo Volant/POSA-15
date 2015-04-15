@@ -34,7 +34,11 @@ public class OutputStrategy {
         // Runnable that's ultimately posted to the UI Thread via
         // another Thread that sleeps for 0.5 seconds to let the user
         // see what's going on.
-        // @@ TODO - you fill in here.
+        // @@ TO DO - you fill in here.m
+    	MainActivity mainActivity = mOuterClass.get();
+    	if (null != mainActivity) {
+    		mainActivity.print(outputString);
+    	}
     }
 
     /**

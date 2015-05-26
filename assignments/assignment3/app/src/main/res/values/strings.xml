@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_weather_view">WeatherView</string>
+    <string name="get_weather">get weather</string>
 </resources>

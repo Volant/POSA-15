@@ -1,20 +1,43 @@
 package com.wisest_owl.weatherapp.activities;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.wisest_owl.weatherapp.R;
+import com.wisest_owl.weatherapp.operations.WeatherOps;
+import com.wisest_owl.weatherapp.operations.WeatherOpsImpl;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends LifecycleLoggingActivity {
+
+    private WeatherOps mWeatherOps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Create the WeatherOps object one time.
+        mWeatherOps = new WeatherOpsImpl(this);
+
+        // Initiate the service binding protocol.
+        mWeatherOps.bindService();
     }
+
+    @Override
+    protected void onDestroy() {
+        // Unbind from the Service.
+        mWeatherOps.unbindService();
+
+        // Always call super class for necessary operations when an
+        // Activity is destroyed.
+        super.onDestroy();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,4 +60,16 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void getWeatherSync(View v) {
+        mWeatherOps.getWeatherSync(v);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        mWeatherOps.onConfigurationChanged(newConfig);
+    }
+
 }

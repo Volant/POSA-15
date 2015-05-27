@@ -132,6 +132,34 @@ public class WeatherData implements Parcelable {
         mSunset = in.readLong();
     }
 
+    public String getName() {
+        return mName;
+    }
+
+    public Double getSpeed() {
+        return mSpeed;
+    }
+
+    public Double getDeg() {
+        return mDeg;
+    }
+
+    public Double getTemp() {
+        return mTemp;
+    }
+
+    public Long getHumidity() {
+        return mHumidity;
+    }
+
+    public Long getSunrise() {
+        return mSunrise;
+    }
+
+    public Long getSunset() {
+        return mSunset;
+    }
+
     /**
      * public Parcelable.Creator for WeatherData, which is an
      * interface that must be implemented and provided as a public

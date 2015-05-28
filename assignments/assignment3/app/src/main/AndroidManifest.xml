@@ -23,7 +23,15 @@
         <service
             android:name=".services.WeatherServiceSync"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:process=":remote1" >
+        </service>
+
+        <service
+            android:name=".services.WeatherServiceAsync"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote2" >
         </service>
     </application>
 

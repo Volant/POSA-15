@@ -65,6 +65,10 @@ public class MainActivity extends LifecycleLoggingActivity {
         mWeatherOps.getWeatherSync(v);
     }
 
+    public void getWeatherAsync(View v) {
+        mWeatherOps.getWeatherAsync(v);
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

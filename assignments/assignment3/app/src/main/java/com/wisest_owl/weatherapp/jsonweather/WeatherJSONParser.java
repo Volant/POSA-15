@@ -41,8 +41,6 @@ public class WeatherJSONParser {
 
             // Handle the array returned from the Acronym Service.
             parseWeatherServiceResults(reader);
-
-            inputStream.close();
         }
 
         return weathers;

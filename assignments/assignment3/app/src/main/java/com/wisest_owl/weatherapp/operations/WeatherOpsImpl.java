@@ -20,9 +20,10 @@ import com.wisest_owl.weatherapp.activities.MainActivity;
 import com.wisest_owl.weatherapp.aidl.WeatherData;
 import com.wisest_owl.weatherapp.aidl.WeatherCall;
 import com.wisest_owl.weatherapp.aidl.WeatherRequest;
-
 import com.wisest_owl.weatherapp.aidl.WeatherResults;
+
 import com.wisest_owl.weatherapp.services.WeatherServiceSync;
+import com.wisest_owl.weatherapp.services.WeatherServiceAsync;
 
 import com.wisest_owl.weatherapp.utils.Utils;
 import com.wisest_owl.weatherapp.utils.WeatherDataArrayAdapter;
@@ -158,12 +159,12 @@ public class WeatherOpsImpl implements WeatherOps {
                     (WeatherServiceSync.makeIntent(mActivity.get()),
                             mServiceConnectionSync,
                             Context.BIND_AUTO_CREATE);
-//
-//        if (mServiceConnectionAsync.getInterface() == null)
-//            mActivity.get().bindService
-//                    (WeatherServiceAsync.makeIntent(mActivity.get()),
-//                            mServiceConnectionAsync,
-//                            Context.BIND_AUTO_CREATE);
+
+        if (mServiceConnectionAsync.getInterface() == null)
+            mActivity.get().bindService
+                    (WeatherServiceAsync.makeIntent(mActivity.get()),
+                            mServiceConnectionAsync,
+                            Context.BIND_AUTO_CREATE);
     }
 
     /**

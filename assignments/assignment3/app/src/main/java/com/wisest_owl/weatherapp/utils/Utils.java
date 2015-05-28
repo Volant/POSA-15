@@ -69,6 +69,8 @@ public class Utils {
                 // Parse the Json results and create JsonWeather data
                 // objects.
                 jsonWeathers = parser.parseJsonStream(in);
+
+                in.close();
             } finally {
                 urlConnection.disconnect();
             }

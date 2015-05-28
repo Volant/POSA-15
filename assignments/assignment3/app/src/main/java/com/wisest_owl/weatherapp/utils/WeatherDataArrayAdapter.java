@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 /**
  * Custom ArrayAdapter for the WeatherData class, which makes each row
  * of the ListView have a more complex layout than just a single
@@ -28,7 +30,7 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
      * layout for each row.
      */
     public WeatherDataArrayAdapter(Context context) {
-        super(context, R.layout.activity_main);
+        super(context, R.layout.current_weather);
     }
 
     /**
@@ -37,7 +39,7 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
      */
     public WeatherDataArrayAdapter(Context context,
                                    List<WeatherData> objects) {
-        super(context, R.layout.activity_main, objects);
+        super(context, R.layout.current_weather, objects);
     }
 
     /**
@@ -61,17 +63,40 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
     public View getView(int position,
                         View convertView,
                         ViewGroup parent) {
+
         WeatherData data = getItem(position);
 
-        Log.d(TAG, "It means we print data: " + data.getName());
-
-
-        /*
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.Weather_data_row,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.current_weather,
                     parent,
                     false);
         }
+
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        name.setText(data.getName());
+
+        TextView speed = (TextView) convertView.findViewById(R.id.speed);
+        speed.setText(data.getSpeed().toString());
+
+        TextView deg = (TextView) convertView.findViewById(R.id.deg);
+        deg.setText(data.getDeg().toString());
+
+        TextView temp = (TextView) convertView.findViewById(R.id.temp);
+        temp.setText(data.getTemp().toString());
+
+        TextView humidity = (TextView) convertView.findViewById(R.id.humidity);
+        humidity.setText(data.getHumidity().toString());
+
+        TextView sunrise = (TextView) convertView.findViewById(R.id.sunrise);
+        sunrise.setText(data.getSunrise().toString());
+
+        TextView sunset = (TextView) convertView.findViewById(R.id.sunset);
+        sunset.setText(data.getSunset().toString());
+
+
+        convertView.setVisibility(View.VISIBLE);
+
+        /*
 
 
 

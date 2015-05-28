@@ -7,4 +7,11 @@
     <string name="get_weather">Get Weather Sync</string>
     <string name="input_text">Please input your location</string>
     <string name="get_weather_async">Get Weather ASync</string>
+    <string name="weather_name">Summary</string>
+    <string name="wind">wind</string>
+    <string name="degree">wind speed</string>
+    <string name="temperature">temperature</string>
+    <string name="humidity">humidity</string>
+    <string name="sunrise">sunrise</string>
+    <string name="sunset">sunset</string>
 </resources>

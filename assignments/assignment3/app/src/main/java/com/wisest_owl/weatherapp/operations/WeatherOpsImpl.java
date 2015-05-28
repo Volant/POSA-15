@@ -111,7 +111,7 @@ public class WeatherOpsImpl implements WeatherOps {
                 (new WeatherDataArrayAdapter(mActivity.get()));
 
         // Set the adapter to the ListView.
-//        mListView.get().setAdapter(mAdapter.get());
+        mListView.get().setAdapter(mAdapter.get());
     }
 
     /**
@@ -259,8 +259,8 @@ public class WeatherOpsImpl implements WeatherOps {
                 protected void onPostExecute(List<WeatherData> WeatherDataList) {
                     if (WeatherDataList.size() > 0) {
                         Log.d(TAG, "Showing results for weather");
-                        TextView textView = (TextView) mActivity.get().findViewById(R.id.textView);
-                        textView.setText(WeatherDataList.get(0).getName());
+//                        TextView textView = (TextView) mActivity.get().findViewById(R.id.textView);
+//                        textView.setText(WeatherDataList.get(0).getName());
                         displayResults(WeatherDataList);
                     } else
                         Utils.showToast(mActivity.get(), "no expansions for " + mWeather + " found");
@@ -331,9 +331,9 @@ public class WeatherOpsImpl implements WeatherOps {
         mResults = results;
 
         // Set/change data set.
-//        mAdapter.get().clear();
-//        mAdapter.get().addAll(mResults);
-//        mAdapter.get().notifyDataSetChanged();
+        mAdapter.get().clear();
+        mAdapter.get().addAll(mResults);
+        mAdapter.get().notifyDataSetChanged();
     }
 
     /**
@@ -342,6 +342,7 @@ public class WeatherOpsImpl implements WeatherOps {
     private void resetDisplay() {
         Utils.hideKeyboard(mActivity.get(),
                 mEditText.get().getWindowToken());
+
         mResults = null;
         mAdapter.get().clear();
         mAdapter.get().notifyDataSetChanged();

@@ -13,11 +13,22 @@ public class JsonWeather {
      * Various tags corresponding to data downloaded in Json from the
      * Weather Service.
      */
-    final public static String sf_JSON = "sf";
-    final public static String lfs_JSON = "lfs";
-    final public static String lf_JSON = "lf";
-    final public static String freq_JSON = "freq";
-    final public static String since_JSON = "since";
+    final public static String weather_JSON = "weather";
+        final public static String name_JSON = "main";
+
+    final public static String wind_JSON = "wind";
+        final public static String speed_JSON = "speed";
+        final public static String deg_JSON = "deg";
+
+    final public static String main_JSON = "main";
+        final public static String temp_JSON = "temp";
+        final public static String hum_JSON = "humidity";
+
+    final public static String sys_JSON = "sys";
+        final public static String rise_JSON = "sunrise";
+        final public static String set_JSON = "sunset";
+
+
 
     /**
      * Various fields corresponding to data downloaded in Json from
@@ -108,7 +119,7 @@ public class JsonWeather {
         mSunrise = sunrise;
         mSunset = sunset;
     }
-    
+
     /**
      * No-op constructor.
      */

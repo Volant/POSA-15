@@ -33,9 +33,8 @@ public class Utils {
     /** 
      * URL to the Weather web service.
      */
-    // TODO Should be changed URL for Weather
     private final static String sWeather_Web_Service_URL =
-        "http://www.nactem.ac.uk/software/acromine/dictionary.py?sf=";
+        "http://api.openweathermap.org/data/2.5/weather?q=";
 
     /**
      * Obtain the Weather information.

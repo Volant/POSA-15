@@ -187,7 +187,7 @@ public class WeatherJSONParser {
                     mWeather.setSunrise(reader.nextLong());
                     break;
                 case JsonWeather.set_JSON:
-                    mWeather.setDeg(reader.nextLong());
+                    mWeather.setSunset(reader.nextLong());
                     break;
                 default:
                     reader.skipValue();

@@ -3,6 +3,9 @@ package com.wisest_owl.weatherapp.aidl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * This class is a Plain Old Java Object (POJO) used for data
  * transport within the WeatherService app.  This POJO implements the
@@ -152,12 +155,12 @@ public class WeatherData implements Parcelable {
         return mHumidity;
     }
 
-    public Long getSunrise() {
-        return mSunrise;
+    public String getSunrise() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mSunrise * 1000L));
     }
 
-    public Long getSunset() {
-        return mSunset;
+    public String getSunset() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mSunset * 1000L));
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.wisest_owl.weatherapp.jsonweather;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 /**
  * This "Plain Ol' Java Object" (POJO) class represents data of
@@ -67,7 +71,8 @@ public class JsonWeather {
     }
 
     public double getTemp () {
-        return mTemp;
+        String stemp = String.format("%2.2f", mTemp - 273);
+        return Double.valueOf(stemp);
     }
 
     public void setTemp (double mTemp) {

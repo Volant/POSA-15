@@ -11,6 +11,7 @@ import java.util.List;
 import com.wisest_owl.weatherapp.aidl.WeatherData;
 import com.wisest_owl.weatherapp.jsonweather.JsonWeather;
 import com.wisest_owl.weatherapp.jsonweather.WeatherJSONParser;
+import com.wisest_owl.weatherapp.operations.WeatherCache;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,11 +27,11 @@ import android.widget.Toast;
  */
 public class Utils {
     /**
-     * Logging tag used by the debugger. 
+     * Logging tag used by the debugger.
      */
     private final static String TAG = Utils.class.getCanonicalName();
 
-    /** 
+    /**
      * URL to the Weather web service.
      */
     private final static String sWeather_Web_Service_URL =
@@ -38,7 +39,7 @@ public class Utils {
 
     /**
      * Obtain the Weather information.
-     * 
+     *
      * @return The information that responds to your current acronym search.
      */
     public static List<WeatherData> getResults(final String acronym) {
@@ -58,7 +59,7 @@ public class Utils {
             // Opens a connection to the Weather Service.
             HttpURLConnection urlConnection =
                 (HttpURLConnection) url.openConnection();
-            
+
             // Sends the GET request and reads the Json results.
             try (InputStream in =
                  new BufferedInputStream(urlConnection.getInputStream())) {
@@ -125,5 +126,5 @@ public class Utils {
      */
     private Utils() {
         throw new AssertionError();
-    } 
+    }
 }

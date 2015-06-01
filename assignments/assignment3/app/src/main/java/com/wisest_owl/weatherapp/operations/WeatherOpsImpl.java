@@ -1,12 +1,16 @@
 package com.wisest_owl.weatherapp.operations;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wisest_owl.weatherapp.R;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.util.Log;
@@ -193,12 +197,41 @@ public class WeatherOpsImpl implements WeatherOps {
         WeatherRequest WeatherRequest =
                 mServiceConnectionAsync.getInterface();
 
-        if (WeatherRequest != null) {
-            // Get the Weather entered by the user.
-            final String Weather =
-                    mEditText.get().getText().toString();
+        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 1);
+        final SQLiteDatabase dbh = mWeatherCache.getWritableDatabase();
+
+        List<WeatherData> WeatherDataList = new ArrayList<WeatherData>();
+
+        // Get the Weather entered by the user.
+        final String Weather =
+                mEditText.get().getText().toString();
+
+        String columns[] = { "name", "speed", "deg", "temp", "humidity", "sunrise", "sunset" };
+        String selectionArgs[] = { Weather };
+
+        Cursor coursor = dbh.query("weather_last", columns, "time_changed < NOW()+10 and city = ?", selectionArgs, null, null, null);
+
+        if (coursor.getCount() > 0) {
+
+            WeatherDataList.add(new WeatherData(
+                            coursor.getString(0),
+                            coursor.getDouble(1),
+                            coursor.getDouble(2),
+                            coursor.getDouble(3),
+                            coursor.getLong(4),
+                            coursor.getLong(5),
+                            coursor.getLong(6)
+                    )
+            );
+
+            Log.v(TAG, "Showing data from cache");
+
+            displayResults(WeatherDataList);
+        } else if (WeatherRequest != null) {
 
             resetDisplay();
+
+            Log.v(TAG, "Showing data from weather forecast site");
 
             try {
                 // Invoke a one-way AIDL call, which does not block
@@ -223,10 +256,39 @@ public class WeatherOpsImpl implements WeatherOps {
         final WeatherCall WeatherCall =
                 mServiceConnectionSync.getInterface();
 
-        if (WeatherCall != null) {
-            // Get the Weather entered by the user.
-            final String Weather =
-                    mEditText.get().getText().toString();
+        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 1);
+        final SQLiteDatabase dbh = mWeatherCache.getWritableDatabase();
+
+        List<WeatherData> WeatherDataList = new ArrayList<WeatherData>();
+
+        // Get the Weather entered by the user.
+        final String Weather =
+                mEditText.get().getText().toString();
+
+        String columns[] = { "name", "speed", "deg", "temp", "humidity", "sunrise", "sunset" };
+        Integer now = (int) (System.currentTimeMillis() / 1000L) + 10;
+
+        String selectionArgs[] = { now.toString(), Weather };
+
+        Cursor coursor = dbh.query("weather_last", columns, "time_changed < ? and city = ?", selectionArgs, null, null, null);
+
+        if (coursor.getCount() > 0) {
+
+            WeatherDataList.add(new WeatherData(
+                            coursor.getString(0),
+                            coursor.getDouble(1),
+                            coursor.getDouble(2),
+                            coursor.getDouble(3),
+                            coursor.getLong(4),
+                            coursor.getLong(5),
+                            coursor.getLong(6)
+                    )
+            );
+
+            Log.v(TAG, "Showing data from cache");
+
+            displayResults(WeatherDataList);
+        } else if (WeatherCall != null) {
 
             resetDisplay();
 
@@ -259,9 +321,33 @@ public class WeatherOpsImpl implements WeatherOps {
                  */
                 protected void onPostExecute(List<WeatherData> WeatherDataList) {
                     if (WeatherDataList.size() > 0) {
-                        Log.d(TAG, "Showing results for weather");
-//                        TextView textView = (TextView) mActivity.get().findViewById(R.id.textView);
-//                        textView.setText(WeatherDataList.get(0).getName());
+
+                        Log.v(TAG, "Showing data from weather forecast site");
+
+                        ContentValues row = new ContentValues();
+                        row.clear();
+
+                        for (int i = 0; i < WeatherDataList.size(); i++) {
+                            WeatherData weatherData = WeatherDataList.get(i);
+
+                            row.put("city", mWeather);
+                            row.put("name", weatherData.getName());
+                            row.put("speed", weatherData.getSpeed());
+                            row.put("deg", weatherData.getDeg());
+                            row.put("temp", weatherData.getTemp());
+                            row.put("humidity", weatherData.getHumidity());
+                            row.put("sunrise", weatherData.getSunrise());
+                            row.put("sunset", weatherData.getSunset());
+                            row.put("time_changed", (int) (System.currentTimeMillis() / 1000L));
+                        }
+
+                        Cursor coursor = dbh.query("weather_last", null, null, null, null, null, null);
+                        if (coursor.getCount() > 0) {
+                            dbh.update("weather_last", row, null, null);
+                        } else {
+                            dbh.insert("weather_last", null, row);
+                        }
+
                         displayResults(WeatherDataList);
                     } else
                         Utils.showToast(mActivity.get(), "no expansions for " + mWeather + " found");
@@ -328,7 +414,7 @@ public class WeatherOpsImpl implements WeatherOps {
      * @param results
      *            List of Results to be displayed.
      */
-    private void displayResults(List<WeatherData> results) {
+    public void displayResults(List<WeatherData> results) {
         mResults = results;
 
         // Set/change data set.

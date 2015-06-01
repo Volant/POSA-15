@@ -2,14 +2,18 @@ package com.wisest_owl.weatherapp.activities;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.wisest_owl.weatherapp.R;
+import com.wisest_owl.weatherapp.operations.WeatherCache;
 import com.wisest_owl.weatherapp.operations.WeatherOps;
 import com.wisest_owl.weatherapp.operations.WeatherOpsImpl;
+import com.wisest_owl.weatherapp.utils.Utils;
 
 
 public class MainActivity extends LifecycleLoggingActivity {

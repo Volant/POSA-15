@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * This "Plain Ol' Java Object" (POJO) class represents data of
- * interest downloaded in Json from the Acronym Service.  We don't
+ * interest downloaded in Json from the Weather Service.  We don't
  * care about all the data, just the fields defined in this class.
  */
 public class JsonWeather {

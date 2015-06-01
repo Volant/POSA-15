@@ -15,19 +15,19 @@ import android.os.RemoteException;
 import android.util.Log;
 
 /**
- * @class AcronymServiceAsync
+ * @class WeatherServiceAsync
  * 
  * @brief This class uses asynchronous AIDL interactions to expand
- *        acronyms via an Acronym Web service.  The AcronymActivity
+ *        weathers via an Weather Web service.  The WeatherActivity
  *        that binds to this Service will receive an IBinder that's an
- *        instance of AcronymRequest, which extends IBinder.  The
+ *        instance of WeatherRequest, which extends IBinder.  The
  *        Activity can then interact with this Service by making
- *        one-way method calls on the AcronymRequest object asking
- *        this Service to lookup the Acronym's meaning, passing in an
- *        AcronymResults object and the Acronym string.  After the
- *        lookup is finished, this Service sends the Acronym results
+ *        one-way method calls on the WeatherRequest object asking
+ *        this Service to lookup the Weather's data, passing in an
+ *        WeatherResults object and the Country/City string.  After the
+ *        lookup is finished, this Service sends the Weather data
  *        back to the Activity by calling sendResults() on the
- *        AcronymResults object.
+ *        WeatherResults object.
  * 
  *        AIDL is an example of the Broker Pattern, in which all
  *        interprocess communication details are hidden behind the
@@ -36,7 +36,7 @@ import android.util.Log;
 public class WeatherServiceAsync extends LifecycleLoggingService {
     /**
      * Factory method that makes an Intent used to start the
-     * AcronymServiceAsync when passed to bindService().
+     * WeatherServiceAsync when passed to bindService().
      * 
      * @param context
      *            The context of the calling component.
@@ -47,9 +47,9 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
     }
 
     /**
-     * Called when a client (e.g., AcronymActivity) calls
+     * Called when a client (e.g., WeatherActivity) calls
      * bindService() with the proper Intent.  Returns the
-     * implementation of AcronymRequest, which is implicitly cast as
+     * implementation of WeatherRequest, which is implicitly cast as
      * an IBinder.
      */
     @Override
@@ -59,8 +59,8 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
 
     /**
      * The concrete implementation of the AIDL Interface
-     * AcronymRequest, which extends the Stub class that implements
-     * AcronymRequest, thereby allowing Android to handle calls across
+     * WeatherRequest, which extends the Stub class that implements
+     * WeatherRequest, thereby allowing Android to handle calls across
      * process boundaries.  This method runs in a separate Thread as
      * part of the Android Binder framework.
      * 
@@ -69,9 +69,9 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
      */
     WeatherRequest.Stub mWeatherRequestImpl = new WeatherRequest.Stub() {
             /**
-             * Implement the AIDL AcronymRequest expandAcronym()
+             * Implement the AIDL WeatherRequest expandWeather()
              * method, which forwards to DownloadUtils getResults() to
-             * obtain the results from the Acronym Web service and
+             * obtain the results from the Weather Web service and
              * then sends the results back to the Activity via a
              * callback.
              */
@@ -80,23 +80,20 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
                                       WeatherResults callback)
                 throws RemoteException {
 
-                // Call the Acronym Web service to get the list of
-                // possible expansions of the designated acronym.
+                // Call the Weather Web service to get the weather data
+                // of the designated city/country.
                 List<WeatherData> weatherResults =
                     Utils.getResults(weather_req);
 
-                // Invoke a one-way callback to send list of acronym
-                // expansions back to the AcronymActivity.
+                // Invoke a one-way callback to send weather data
+                // back to the WeatherActivity.
                 if (weatherResults != null) {
                     Log.d(TAG, "" 
                           + weatherResults.size()
-                          + " results for weather: "
+                          + " results for city: "
                           + weather_req);
                     callback.sendResults(weatherResults);
                 } else
-//                    callback.sendError("No expansions for "
-//                                       + acronym
-//                                       + " found");
                     Log.d(TAG, "No weather got for " + weather_req);
             }
 	};

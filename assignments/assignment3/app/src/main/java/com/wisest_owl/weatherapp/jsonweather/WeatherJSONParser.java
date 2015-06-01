@@ -14,7 +14,7 @@ import static android.util.JsonToken.BEGIN_OBJECT;
 import static android.util.JsonToken.END_OBJECT;
 
 /**
- * Parses the Json acronym data returned from the Acronym Services API
+ * Parses the Json weather data returned from the Weather Services API
  * and returns a List of JsonWeather objects that contain this data.
  */
 public class WeatherJSONParser {
@@ -39,7 +39,7 @@ public class WeatherJSONParser {
                                                   "UTF-8"))) {
             // Log.d(TAG, "Parsing the results returned as an array");
 
-            // Handle the array returned from the Acronym Service.
+            // Handle the array returned from the Weather Service.
             parseWeatherServiceResults(reader);
         }
 
@@ -55,7 +55,7 @@ public class WeatherJSONParser {
 
         reader.beginObject();
         try {
-            // If the acronym wasn't expanded return null;
+            // If the weather wasn't fetched return null;
             if (reader.peek() == JsonToken.END_OBJECT)
                 return null;
 

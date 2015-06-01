@@ -28,7 +28,8 @@
             android:text="@string/get_weather"
             android:id="@+id/button"
             android:gravity="center_vertical|center_horizontal"
-            android:onClick="getWeatherSync"/>
+            android:onClick="getWeatherSync"
+            android:layout_weight="1"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
             android:text="@string/get_weather_async"
             android:id="@+id/button2"
             android:gravity="center_vertical|center_horizontal"
-            android:onClick="getWeatherAsync"/>
+            android:onClick="getWeatherAsync"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <ListView

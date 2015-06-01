@@ -197,7 +197,7 @@ public class WeatherOpsImpl implements WeatherOps {
         WeatherRequest WeatherRequest =
                 mServiceConnectionAsync.getInterface();
 
-        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 1);
+        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 2);
         final SQLiteDatabase dbh = mWeatherCache.getWritableDatabase();
 
         List<WeatherData> WeatherDataList = new ArrayList<WeatherData>();
@@ -207,20 +207,24 @@ public class WeatherOpsImpl implements WeatherOps {
                 mEditText.get().getText().toString();
 
         String columns[] = { "name", "speed", "deg", "temp", "humidity", "sunrise", "sunset" };
-        String selectionArgs[] = { Weather };
+        Long now = (long) (System.currentTimeMillis() / 1000L) - 10;
 
-        Cursor coursor = dbh.query("weather_last", columns, "time_changed < NOW()+10 and city = ?", selectionArgs, null, null, null);
+        String selectionArgs[] = { now.toString(), Weather };
 
-        if (coursor.getCount() > 0) {
+        Cursor cursor = dbh.query("weather_last", columns, "time_changed > ? and city = ?", selectionArgs, null, null, null);
+
+        if (cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
 
             WeatherDataList.add(new WeatherData(
-                            coursor.getString(0),
-                            coursor.getDouble(1),
-                            coursor.getDouble(2),
-                            coursor.getDouble(3),
-                            coursor.getLong(4),
-                            coursor.getLong(5),
-                            coursor.getLong(6)
+                            cursor.getString(cursor.getColumnIndex("name")),
+                            cursor.getDouble(cursor.getColumnIndex("speed")),
+                            cursor.getDouble(cursor.getColumnIndex("deg")),
+                            cursor.getDouble(cursor.getColumnIndex("temp")),
+                            cursor.getLong(cursor.getColumnIndex("humidity")),
+                            cursor.getLong(cursor.getColumnIndex("sunrise")),
+                            cursor.getLong(cursor.getColumnIndex("sunset"))
                     )
             );
 
@@ -256,7 +260,7 @@ public class WeatherOpsImpl implements WeatherOps {
         final WeatherCall WeatherCall =
                 mServiceConnectionSync.getInterface();
 
-        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 1);
+        WeatherCache mWeatherCache = new WeatherCache(mActivity.get(), "weather", null, 2);
         final SQLiteDatabase dbh = mWeatherCache.getWritableDatabase();
 
         List<WeatherData> WeatherDataList = new ArrayList<WeatherData>();
@@ -266,26 +270,29 @@ public class WeatherOpsImpl implements WeatherOps {
                 mEditText.get().getText().toString();
 
         String columns[] = { "name", "speed", "deg", "temp", "humidity", "sunrise", "sunset" };
-        Integer now = (int) (System.currentTimeMillis() / 1000L) + 10;
+        Long now = (long) (System.currentTimeMillis() / 1000L) - 10;
 
         String selectionArgs[] = { now.toString(), Weather };
 
-        Cursor coursor = dbh.query("weather_last", columns, "time_changed < ? and city = ?", selectionArgs, null, null, null);
+        Cursor cursor = dbh.query("weather_last", columns, "time_changed > ? and city = ?", selectionArgs, null, null, null);
 
-        if (coursor.getCount() > 0) {
+        if (cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
 
             WeatherDataList.add(new WeatherData(
-                            coursor.getString(0),
-                            coursor.getDouble(1),
-                            coursor.getDouble(2),
-                            coursor.getDouble(3),
-                            coursor.getLong(4),
-                            coursor.getLong(5),
-                            coursor.getLong(6)
-                    )
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getDouble(cursor.getColumnIndex("speed")),
+                    cursor.getDouble(cursor.getColumnIndex("deg")),
+                    cursor.getDouble(cursor.getColumnIndex("temp")),
+                    cursor.getLong(cursor.getColumnIndex("humidity")),
+                    cursor.getLong(cursor.getColumnIndex("sunrise")),
+                    cursor.getLong(cursor.getColumnIndex("sunset")))
             );
 
             Log.v(TAG, "Showing data from cache");
+
+            dbh.close();
 
             displayResults(WeatherDataList);
         } else if (WeatherCall != null) {
@@ -336,10 +343,12 @@ public class WeatherOpsImpl implements WeatherOps {
                             row.put("deg", weatherData.getDeg());
                             row.put("temp", weatherData.getTemp());
                             row.put("humidity", weatherData.getHumidity());
-                            row.put("sunrise", weatherData.getSunrise());
-                            row.put("sunset", weatherData.getSunset());
-                            row.put("time_changed", (int) (System.currentTimeMillis() / 1000L));
+                            row.put("sunrise", weatherData.getSunrise_orig());
+                            row.put("sunset", weatherData.getSunset_orig());
+                            row.put("time_changed", (long) (System.currentTimeMillis() / 1000L));
                         }
+
+                        Log.v(TAG, "time changed: " + (System.currentTimeMillis() / 1000L));
 
                         Cursor coursor = dbh.query("weather_last", null, null, null, null, null, null);
                         if (coursor.getCount() > 0) {
@@ -347,6 +356,8 @@ public class WeatherOpsImpl implements WeatherOps {
                         } else {
                             dbh.insert("weather_last", null, row);
                         }
+
+                        dbh.close();
 
                         displayResults(WeatherDataList);
                     } else

@@ -26,7 +26,7 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
             this.getClass().getCanonicalName();
 
     /**
-     * Construtor that declares which layout file is used as the
+     * Constructor that declares which layout file is used as the
      * layout for each row.
      */
     public WeatherDataArrayAdapter(Context context) {
@@ -34,7 +34,7 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
     }
 
     /**
-     * Construtor that declares which layout file is used as the
+     * Constructor that declares which layout file is used as the
      * layout for each row.
      */
     public WeatherDataArrayAdapter(Context context,
@@ -88,29 +88,14 @@ public class WeatherDataArrayAdapter extends ArrayAdapter<WeatherData> {
         humidity.setText(data.getHumidity().toString());
 
         TextView sunrise = (TextView) convertView.findViewById(R.id.sunrise);
-        sunrise.setText(data.getSunrise().toString());
+        sunrise.setText(data.getSunrise());
 
         TextView sunset = (TextView) convertView.findViewById(R.id.sunset);
-        sunset.setText(data.getSunset().toString());
+        sunset.setText(data.getSunset());
 
 
         convertView.setVisibility(View.VISIBLE);
 
-        /*
-
-
-
-        TextView resultTV =
-                (TextView) convertView.findViewById(R.id.name);
-        TextView dbRefsTV =
-                (TextView) convertView.findViewById(R.id.db_refs);
-        TextView yearAddedTV =
-                (TextView) convertView.findViewById(R.id.year_added_to_db);
-
-        resultTV.setText(data.mLongForm);
-        dbRefsTV.setText("" + data.mFreq);
-        yearAddedTV.setText("" + data.mSince);
-        */
         return convertView;
     }
 }

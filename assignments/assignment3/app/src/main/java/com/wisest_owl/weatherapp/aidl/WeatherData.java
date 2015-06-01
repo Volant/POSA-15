@@ -163,6 +163,14 @@ public class WeatherData implements Parcelable {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mSunset * 1000L));
     }
 
+    public Long getSunrise_orig() {
+        return mSunrise;
+    }
+
+    public Long getSunset_orig() {
+        return mSunset;
+    }
+
     /**
      * public Parcelable.Creator for WeatherData, which is an
      * interface that must be implemented and provided as a public

@@ -27,8 +27,8 @@ public class WeatherServiceSync extends LifecycleLoggingService {
         public List<WeatherData> getCurrentWeather(String weather)
                 throws RemoteException {
 
-            // Call the Weather Web service to get the list of
-            // possible expansions of the designated weather.
+            // Call the Weather Web service to get the weather data
+            // of the designated country/city.
             List<WeatherData> weatherResults =
                     Utils.getResults(weather);
 

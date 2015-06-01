@@ -21,8 +21,8 @@ public class WeatherCache extends SQLiteOpenHelper {
                 + "deg float, "
                 + "temp float, "
                 + "humidity integer, "
-                + "sunrise bigint, "
-                + "sunset bigint,"
+                + "sunrise varchar(100), "
+                + "sunset varchar(100),"
                 + "time_changed bigint"
                 + ");");
 
@@ -30,6 +30,5 @@ public class WeatherCache extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

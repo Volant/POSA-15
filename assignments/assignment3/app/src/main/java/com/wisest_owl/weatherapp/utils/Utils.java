@@ -40,9 +40,9 @@ public class Utils {
     /**
      * Obtain the Weather information.
      *
-     * @return The information that responds to your current acronym search.
+     * @return The information that responds to your current weather search.
      */
-    public static List<WeatherData> getResults(final String acronym) {
+    public static List<WeatherData> getResults(final String weather) {
         // Create a List that will return the WeatherData obtained
         // from the Weather Service web service.
         final List<WeatherData> returnList = new ArrayList<>();
@@ -54,7 +54,7 @@ public class Utils {
             // Append the location to create the full URL.
             final URL url =
                 new URL(sWeather_Web_Service_URL
-                        + acronym);
+                        + weather);
 
             // Opens a connection to the Weather Service.
             HttpURLConnection urlConnection =
